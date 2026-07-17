@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spesial Untuk Hari Lahirmu 💖</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fed6e3 0%, #a8c1ef 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            perspective: 1000px;
+        }
+
+        /* Struktur Halaman/Slide */
+        .page {
+            display: none;
+            width: 90%;
+            max-width: 450px;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: scaleUp 0.6s ease forwards;
+            position: relative;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h2 {
+            color: #ff477e;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        /* Tombol Navigasi & Pilihan */
+        .btn-nav, .btn-choice {
+            background: #ff477e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 0.95rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 25px;
+            box-shadow: 0 5px 15px rgba(255, 71, 126, 0.3);
+            transition: 0.3s;
+        }
+
+        .btn-nav:hover, .btn-choice:hover {
+            background: #e03768;
+            transform: translateY(-2px);
+        }
+
+        /* MINI GAME STYLING */
+        .game-container {
+            margin-top: 20px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            position: relative;
+            height: 150px;
+        }
+
+        .btn-wrong {
+            position: absolute;
+            transition: all 0.2s ease;
+            background: #888;
+        }
+
+        /* HALAMAN 1: KARTU ULANG TAHUN (FLIP) */
+        .card-container {
+            width: 100%;
+            height: 380px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+        .card-container.open {
+            transform: rotateY(-180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .card-front { background: white; color: #ff477e; }
+        .card-back { 
+            background: #ffffff; 
+            transform: rotateY(180deg); 
+            border: 4px solid #ff477e; 
+        }
+
+        /* HALAMAN 2: STYLING FOTO DIA */
+        .photo-frame {
+            width: 180px;
+            height: 180px;
+            border-radius: 15px;
+            border: 5px solid #ffb703;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-caption {
+            font-style: italic;
+            font-weight: 600;
+            color: #de3c6a;
+        }
+
+        /* HALAMAN 4: SURAT CINTA */
+        .love-letter {
+            text-align: justify;
+            background: rgba(255, 182, 193, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 5px solid #ff477e;
+            font-size: 0.95rem;
+        }
+
+        /* HALAMAN 5: HIASAN & KUE */
+        .cake-container {
+            font-size: 5rem;
+            margin-bottom: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        .candle-flame {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            animation: flicker 0.5s infinite alternate;
+        }
+        .candle-flame.blown {
+            display: none;
+        }
+
+        /* Efek Terbang Universal */
+        .floating-element {
+            position: absolute;
+            bottom: -100px;
+            animation: floatUp 6s linear infinite;
+            z-index: -1;
+            opacity: 0.7;
+        }
+
+        /* Keyframes */
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1); }
+            100% { transform: translateX(-50%) scale(1.1) rotate(3deg); }
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= HALAMAN 1: SELAMAT ULANG TAHUN ================= -->
+    <div id="p1" class="page active">
+        <h2>Buka Kado Pertamamu 🎁</h2>
+        <div class="card-container" onclick="this.classList.toggle('open')">
+            <div class="card-front">
+                <span style="font-size: 5rem;">🎂</span>
+                <p style="margin-top: 15px; font-weight: bold; color: #ff477e;">Klik Kartunya</p>
+            </div>
+            <div class="card-back">
+                <h3 style="color: #ff477e; margin-bottom: 10px;">Happy Birthday, Sayang! 🎉</h3>
+                <p>Selamat bertambah usia untuk orang yang paling berharga di hidupku. Semoga semua kebaikan, kebahagiaan, dan kelancaran menyertai setiap langkahmu hari ini.Semoga apa yang kamu impikan akan menjadi kenyataan dan kamu selalu diberi pencerahan sama allah untuk memilih jalan yang benar dan yang tepat untuk kamuuuuu!!!
+            </div>
+        </div>
+        <button class="btn-nav" onclick="changePage(1, 2)">Lihat Halaman Berikutnya 👉</button>
+    </div>
+
+    <!-- ================= HALAMAN 2: FOTO DIA + KATA PUJIAN ================= -->
+    <div id="p2" class="page">
+        <h2>Si Paling Cantik🥰</h2>
+        <div class="photo-frame">
+            <!-- GANTI DENGAN LINK FOTO PACARMU DI BAWAH INI -->
+            <img src="Foto.jpeg" alt="Foto Pacar Tersayang">
+        </div>
+        <p class="photo-caption">"Melihat senyum di foto ini selalu sukses bikin hariku jadi jauh lebih cerah."</p>
+        <p style="margin-top: 15px; font-size: 0.95rem;">Terima kasih ya sudah selalu menjaga diri kamu dengan baik, tetap jadi orang yang manis,imutt nan lucu seperti yang aku kenal.</p>
+        <button class="btn-nav" onclick="changePage(2, 3)">sekarang coba main game🎮</button>
+    </div>
+
+    <!-- ================= HALAMAN 3: MINI GAME TEBAKAN ================= -->
+    <div id="p3" class="page">
+        <h2>Main Game Dulu! 😜</h2>
+        <p style="font-weight: bold; color: #de3c6a;">Jawab jujur, siapa pacar paling kamu sayang di dunia?</p>
+        
+        <div class="game-container" id="gameBox">
+            <!-- Ganti "Nama Kamu" dengan namamu sendiri -->
+            <button class="btn-choice" onclick="answerCorrect()" style="position: absolute; top: 10px;">fahriii❤️</button>
+            <button class="btn-choice btn-wrong" id="btnNo" onmouseover="moveButton()" onclick="moveButton()">Mark NCT</button>
+        </div>
+        
+        <!-- Tombol Lanjut hidden dulu, baru muncul kalau jawaban benar -->
+        <button class="btn-nav" id="btnAfterGame" onclick="changePage(3, 4)" style="display: none; margin-top: 10px;">Buka Surat Cinta 💌</button>
+    </div>
+
+    <!-- ================= HALAMAN 4: KATA KASIH SAYANG ================= -->
+    <div id="p4" class="page">
+        <h2>Isi Hatiku Untukmu 💌</h2>
+        <div class="love-letter">
+            "Aku bersyukur banget atas kehadiran kamu dalam hidupku. Di hari kelahiranmu ini, aku ingin kamu tahu kalau kasih sayangku tidak akan pernah berkurang. Terima kasih atas segala tawa, kesabaran, dan kasih sayang yang kamu kasih ke aku. Aku berharap bisa terus menemanimu di setiap lembar ulang tahunmu yang berikutnya. I love you so much!"
+        </div>
+        <button class="btn-nav" onclick="changePage(4, 5)">Buka lagiiii✨</button>
+    </div>
+
+    <!-- ================= HALAMAN 5: PENUTUP & HIASAN ================= -->
+    <div id="p5" class="page">
+        <h2>Make A Wish! 🌟</h2>
+        <div class="cake-container" onclick="blowCandle()">
+            <div class="candle-flame" id="flame">🔥</div>
+            🎂
+        </div>
+        <p style="font-weight: bold; color: #ff477e;" id="candle-text">Klik apinya untuk tiup lilin!</p>
+        <p style="margin-top: 20px; font-size: 0.95rem;">Selamat Ulang Tahun sekali lagi! Semoga harimu penuh dengan kebahagiaan,kemudahan,kelancaran dalam keberlangsungan hidup kamuu,AKU SAYANGG KAMUUUUUUUUU🥳🎈✨</p>
+    </div>
+
+    <script>
+        let currentTheme = "birthday";
+
+        // Fungsi Perpindahan Halaman
+        function changePage(from, to) {
+            document.getElementById(`p${from}`).classList.remove('active');
+            document.getElementById(`p${to}`).classList.add('active');
+            
+            // Mengatur hiasan terbang berdasarkan halaman
+            if(to >= 4) {
+                currentTheme = "love";
+            } else {
+                currentTheme = "birthday";
+            }
+
+            if(to === 5) {
+                createCelebrationConfetti();
+            }
+        }
+
+        // Trik Game: Tombol Pilihan Lain Menghindar
+        function moveButton() {
+            const btnNo = document.getElementById('btnNo');
+            const gameBox = document.getElementById('gameBox');
+            
+            // Menghitung batas maksimal pergerakan agar tidak keluar box game
+            const maxX = gameBox.clientWidth - btnNo.clientWidth;
+            const maxY = gameBox.clientHeight - btnNo.clientHeight;
+
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * (maxY - 40)) + 40; // Menghindari tombol benar di atas
+
+            btnNo.style.left = randomX + 'px';
+            btnNo.style.top = randomY + 'px';
+        }
+
+        // Ketika Jawaban Benar Diklik -> Animasi Cium Love
+        function answerCorrect() {
+            currentTheme = "kiss"; // Ubah tema dekorasi jadi ciuman love
+            createKissExplosion(); // Ledakan ciuman instan
+            
+            // Sembunyikan tombol salah, tampilkan tombol lanjut
+            document.getElementById('btnNo').style.display = 'none';
+            document.getElementById('btnAfterGame').style.display = 'inline-block';
+            
+            alert("Tebakan kamu 100% BENAR! Dapat kecup banyak dari aku! 😘❤️");
+        }
+
+        // Fungsi Tiup Lilin di Halaman Terakhir
+        function blowCandle() {
+            const flame = document.getElementById('flame');
+            const text = document.getElementById('candle-text');
+            flame.classList.add('blown');
+            text.innerHTML = "Yeay! Lilin berhasil ditiup! 🎉💖";
+            createCelebrationConfetti();
+        }
+
+        // Sistem Hiasan Terbang Otomatis (Balon, Hati, atau Ciuman)
+        function startFloating() {
+            const birthdayItems = ['🎈', '✨', '🎁', '🎉', '🥳'];
+            const loveItems = ['❤️', '💖', '💕', '🌸', '💘'];
+            const kissItems = ['😘', '❤️', '💋', '💕', '😽'];
+
+            setInterval(() => {
+                const item = document.createElement('div');
+                item.classList.add('floating-element');
+                
+                if (currentTheme === "birthday") {
+                    item.innerText = birthdayItems[Math.floor(Math.random() * birthdayItems.length)];
+                } else if (currentTheme === "love") {
+                    item.innerText = loveItems[Math.floor(Math.random() * loveItems.length)];
+                } else {
+                    item.innerText = kissItems[Math.floor(Math.random() * kissItems.length)];
+                }
+                
+                item.style.left = Math.random() * 100 + 'vw';
+                item.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+                item.style.fontSize = (Math.random() * 25 + 20) + 'px';
+                document.body.appendChild(item);
+
+                setTimeout(() => { item.remove(); }, 6000);
+            }, 350);
+        }
+
+        // Animasi Ledakan Ciuman Love Instan saat Menang Game
+        function createKissExplosion() {
+            const kissItems = ['😘', '❤️', '💋', '💕'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const kiss = document.createElement('div');
+                    kiss.innerText = kissItems[Math.floor(Math.random() * kissItems.length)];
+                    kiss.style.position = 'absolute';
+                    kiss.style.left = Math.random() * 100 + 'vw';
+                    kiss.style.top = '100vh';
+                    kiss.style.fontSize = (Math.random() * 30 + 20) + 'px';
+                    kiss.style.zIndex = '100';
+                    
+                    kiss.animate([
+                        { transform: 'translateY(0) scale(1)', opacity: 1 },
+                        { transform: `translate(-${Math.random() * 50}px, -110vh) scale(1.5)`, opacity: 0 }
+                    ], { duration: Math.random() * 1500 + 1500, easing: 'ease-out' });
+
+                    document.body.appendChild(kiss);
+                    setTimeout(() => { kiss.remove(); }, 3000);
+                }, i * 10);
+            }
+        }
+
+        // Efek Ledakan Kertas Warna-warni (Confetti)
+        function createCelebrationConfetti() {
+            const colors = ['#ff477e', '#ffb703', '#fb8500', '#8ecae6', '#219ebc', '#b5e2fa'];
+            for (let i = 0; i < 60; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.style.position = 'absolute';
+                    confetti.style.width = confetti.style.height = (Math.random() * 8 + 6) + 'px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.top = '-10px';
+                    confetti.style.borderRadius = '50%';
+                    confetti.style.zIndex = '10';
+                    
+                    confetti.animate([
+                        { transform: 'translateY(0) rotate(0deg)' },
+                        { transform: `translateY(110vh) rotate(${Math.random() * 360}deg)` }
+                    ], { duration: Math.random() * 1500 + 2000, easing: 'linear' });
+
+                    document.body.appendChild(confetti);
+                    setTimeout(() => { confetti.remove(); }, 3500);
+                }, i * 12);
+            }
+        }
+
+        // Posisi awal tombol salah di setup secara default
+        document.getElementById('btnNo').style.left = '150px';
+        document.getElementById('btnNo').style.top = '80px';
+
+        // Jalankan background hiasan saat web dibuka
+        startFloating();
+    </script>
+</body>
+</html>
